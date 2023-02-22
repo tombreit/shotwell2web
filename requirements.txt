@@ -1,0 +1,6 @@
+Pillow
+python-slugify
+jinja2
+
+# needs: exiftool
+pyexiftool

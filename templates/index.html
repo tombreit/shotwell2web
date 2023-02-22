@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ static_dir }}/vendor/photoswipe.css">
+    <link rel="stylesheet" href="{{ static_dir }}/css/app.css">
+    <title>{% block title %}&#9752; {{ config.title }} | {{ config.photographer_name }}{% endblock %}</title>
+  </head>
+  <body>
+
+    <h1>
+      &#9752; 
+      {{ config.title }} 
+      ⋆ {{ config.photographer_name }} 
+      ⋆ <a href="{{ config.photographer_www }}">&nbsp;www&nbsp;</a> 
+      ⋆ <a href="mailto:{{ config.photographer_www }}">&nbsp;@&nbsp;</a>
+    </h1>
+
+    <main>
+    {% for image in renditions %}
+          <a 
+            href="img/lg/{{ image.filename }}" 
+            data-pswp-width="{{ image.lg.width }}" 
+            data-pswp-height="{{ image.lg.height }}" 
+            {% if image.title %} title="{{ image.title }}" {% endif %}
+            target="_blank"
+          >
+            <img 
+              src="img/sm/{{ image.filename }}" 
+              style="width: {{ image.sm.width }}px; height: {{ image.sm.height }}px" 
+              alt="{% if image.title %}{{ image.title }}{% endif %}"
+              loading="lazy"
+            >
+          </a>
+    {% endfor %}
+    </main>
+
+    <footer>
+      <a href="{{ config.legal_link[1] }}">{{ config.legal_link[0] }}</a> 
+      <a href="{{ config.privacy_policy_link }}">Datenschutzerklärung</a>
+    </footer>
+
+    <script type="module">
+      import PhotoSwipeLightbox from './{{ static_dir }}/vendor/photoswipe-lightbox.esm.min.js';
+      import PhotoSwipe from './{{ static_dir }}/vendor/photoswipe.esm.min.js';
+
+      const lightbox = new PhotoSwipeLightbox({
+        gallery: 'main',
+        children: 'a',
+        pswpModule: PhotoSwipe
+      });
+
+      lightbox.init();
+    </script>
+
+  </body>
+</html>
